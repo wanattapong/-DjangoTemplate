@@ -1,4 +1,4 @@
-FROM python:3.7
+FROM python:3.8
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -14,9 +14,10 @@ RUN pip install mysqlclient
 RUN pip install -r /app/requirements.txt
 RUN pip3 uninstall avro-python3 -y && pip install avro-python3==1.8.2
 
-COPY . /app/src/
+COPY ./src/ /app/src/
+RUN mkdit -p /app/src/media
 WORKDIR /app/src/
 
 EXPOSE 8000
 
-CMD [ "python", "manage.py", "runserver", "0.0.0.0:8000" ]
+CMD [ "python", "manage.py", "runserver", "0.0.0.0:8000", "--noreload"]

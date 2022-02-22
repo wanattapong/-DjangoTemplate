@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="Python, Django, framework, open-source" />
+    <meta name="description" content="django-template">
+    <title>Django template</title>
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="https://static.djangoproject.com/img/icon-touch.e4872c4da341.png">
+    <link rel="icon" sizes="192x192" href="https://static.djangoproject.com/img/icon-touch.e4872c4da341.png">
+    <link rel="shortcut icon" href="https://static.djangoproject.com/img/favicon.6dbf28c0650e.ico">
+    <meta name="msapplication-TileColor" content="#113228">
+    <meta name="msapplication-TileImage" content="https://static.djangoproject.com/img/icon-tile.b01ac0ef9f67.png">
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="{% static 'bootstrap/css/custom/admin.dashboard.css' %}" rel="stylesheet">
+
+    <!-- font-awesome -->
+    <link rel="stylesheet" href="{% static 'font-awesome/css/all.min.css' %}" />
+
+    <!-- sweetalert2 -->
+    <link rel="stylesheet" href="{% static 'sweetalert2/sweetalert2.min.css' %}">
+    </link>
+
+    <style>
+        .card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            word-wrap: break-word;
+            background-color: #fff;
+            background-clip: border-box;
+            border: 1px solid #e3e6f0;
+            border-left-color: rgb(227, 230, 240);
+            border-left-style: solid;
+            border-left-width: 1px;
+            border-radius: .35rem;
+        }
+
+        .card-header {
+            padding: .75rem 1.25rem;
+            margin-bottom: 0;
+            background-color: #f8f9fc;
+            border-bottom: 1px solid #e3e6f0
+        }
+
+        .card-body {
+            flex: 1 1 auto;
+            min-height: 1px;
+            padding: 1.25rem
+        }
+
+        .border-left-primary {
+            border-left: .25rem solid #4e73df !important
+        }
+
+        .border-left-success {
+            border-left: .25rem solid #1cc88a !important
+        }
+
+        .no-gutters {
+            margin-right: 0;
+            margin-left: 0;
+        }
+
+        .no-gutters>.col,
+        .no-gutters>[class*=col-] {
+            padding-right: 0;
+            padding-left: 0
+        }
+
+        .text-xs {
+            font-size: .7rem;
+        }
+
+        .text-primary {
+            color: #4e73df !important;
+        }
+
+        .text-success {
+            color: #1cc88a !important
+        }
+
+        .font-weight-bold {
+            font-weight: 700 !important;
+        }
+
+        .text-gray-800 {
+            color: #5a5c69 !important;
+        }
+
+        .font-weight-bold {
+            font-weight: 700 !important;
+        }
+
+        .text-gray-300 {
+            color: #dddfeb !important;
+        }
+    </style>
+    {% block style %}
+    {% endblock style %}
+
+</head>
+
+<body class="sb-nav-fixed">
+
+    <nav class="sb-topnav navbar navbar-expand navbar-light bg-white shadow">
+        <!-- Navbar Brand-->
+        <a class="navbar-brand ps-3" href="index.html">{{user.groups.all.0.name}}</a>
+        <!-- Sidebar Toggle-->
+        <button class="btn btn-light btn-sm order-1 order-lg-0 me-4 me-lg-3" id="sidebarToggle"
+            aria-label="show-and-hide-sitebar"><i class="fa-solid fa-align-right"></i></button>
+        <!-- Navbar Search-->
+        <form class="d-none d-sm-inline-block form-inline me-auto mb-2 mb-lg-0">
+            <div class="input-group">
+                <input class="form-control bg-light border-0" type="text" placeholder="Search for..."
+                    aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+                <button class="btn btn-primary" id="btnNavbarSearch" type="button" aria-label="btn-Search"><i
+                        class="fas fa-search"></i></button>
+            </div>
+        </form>
+        <!-- Navbar-->
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false" aria-label="about-profile"><i class="fas fa-user fa-fw"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end mt-lg-0" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
+                    <li>
+                        <hr class="dropdown-divider" />
+                    </li>
+                    <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <div id="layoutSidenav">
+        <!-- sidbar -->
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <!-- sidbar content -->
+                <div class="sb-sidenav-menu">
+                    {% if user.groups.all.0.name == "Admin" %}
+                    <div class="nav">
+
+                        <div class="sb-sidenav-menu-heading">Core</div>
+                        <a class="nav-link" href="{% url 'home-admin' %}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Dashboard
+                        </a>
+
+                        <div class="sb-sidenav-menu-heading">Account</div>
+
+                        <a class="nav-link" href="#">
+                            <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                            User
+                        </a>
+
+                        <a class="nav-link" href="#">
+                            <div class="sb-nav-link-icon"><i class="fas fa-user-gear"></i></div>
+                            Permission
+                        </a>
+
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
+                            aria-expanded="false" aria-controls="collapsePages">
+                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                            Pages
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                    data-bs-target="#pagesCollapseAuth" aria-expanded="false"
+                                    aria-controls="pagesCollapseAuth">
+                                    Authentication
+                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+                                <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne"
+                                    data-bs-parent="#sidenavAccordionPages">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" href="login.html">Login</a>
+                                        <a class="nav-link" href="register.html">Register</a>
+                                        <a class="nav-link" href="password.html">Forgot Password</a>
+                                    </nav>
+                                </div>
+                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                    data-bs-target="#pagesCollapseError" aria-expanded="false"
+                                    aria-controls="pagesCollapseError">
+                                    Error
+                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+                                <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne"
+                                    data-bs-parent="#sidenavAccordionPages">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" href="401.html">401 Page</a>
+                                        <a class="nav-link" href="404.html">404 Page</a>
+                                        <a class="nav-link" href="500.html">500 Page</a>
+                                    </nav>
+                                </div>
+                            </nav>
+                        </div>
+                        <div class="sb-sidenav-menu-heading">Addons</div>
+                        <a class="nav-link" href="#">
+                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                            Charts
+                        </a>
+                        <a class="nav-link" href="tables.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                            Tables
+                        </a>
+                    </div>
+                    {% elif user.groups.all.0.name == "User" %}
+                    <div class="nav">
+                        <div class="sb-sidenav-menu-heading">user</div>
+                    </div>
+                    {% endif %}
+                </div>
+                <!-- sidbar footer -->
+                <div class="sb-sidenav-footer">
+                    <div class="small">Logged in as:</div>
+                    {{request.user.get_full_name}}
+                </div>
+            </nav>
+        </div>
+
+        <!-- content -->
+        <!-- <div id="layoutSidenav_content"> -->
+        <!-- main content -->
+        <main id="layoutSidenav_content" class="" style="background-color: #f8f9fc;">
+            <div class="container-fluid px-4 mb-4">
+
+                {% block content %}
+
+                {% endblock content %}
+
+            </div>
+            <footer class="py-4 bg-white mt-auto shadow">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; Your Website 2021</div>
+                        <div>
+                            <a href="#">Privacy Policy</a>
+                            &middot;
+                            <a href="#">Terms &amp; Conditions</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </main>
+        <!-- content footer -->
+        <!-- </div> -->
+    </div>
+
+    <!-- Bootstrap core script -->
+    <script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+
+    <!-- jquery.min.js -->
+    <script src="{% static 'jquery/jquery.min.js' %}"></script>
+
+    <!-- sweetalert2 -->
+    <script src="{% static 'sweetalert2/sweetalert2.min.js' %}"></script>
+
+    <!-- My custom scripts -->
+    <script src="{% static 'bootstrap/js/custom/admin.dashboard.js' %}"></script>
+
+    {% block script %}
+    {% endblock script %}
+</body>
+
+</html>

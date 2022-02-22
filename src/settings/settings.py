@@ -40,15 +40,20 @@ SECRET_KEY = get_random_secret_key()
 # SECRET_KEY = 'django-insecure-86=ieah6_s6=#4i_yu=pqk!h3)7w9wrr4vfc&77slmx!5evjye'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = DEBUG
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ALLOWED_HOSTS
 
 
 # Application definition
 
 INSTALLED_APPS = [
     'errorPage.apps.ErrorpageConfig',
+    'account.apps.AccountConfig',
+    'adminManage.apps.AdminmanageConfig',
+    'tailwind',
+    'theme',
+    'django_browser_reload', # Reload browser automatically
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -66,6 +71,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_browser_reload.middleware.BrowserReloadMiddleware', # Reload browser automatically
 ]
 
 ROOT_URLCONF = 'settings.urls'
@@ -73,7 +79,8 @@ ROOT_URLCONF = 'settings.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
+        # 'DIRS': [BASE_DIR / 'account/templates', BASE_DIR /'theme/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -81,6 +88,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # 'django.template.context_processors.media',
             ],
         },
     },
@@ -88,6 +96,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'settings.wsgi.application'
 
+TAILWIND_APP_NAME = 'theme'
+
+# For developer mode
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+AUTH_USER_MODEL = 'account.User'
+
+AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.AllowAllUsersModelBackend']
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -115,6 +132,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 9,
+        }
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
@@ -140,6 +160,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+LOGIN_URL = 'singin'
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
@@ -147,10 +169,13 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 # กรณีมีอยู่ที่อื่นๆ ให้เพิ่มที่นี่
 STATICFILES_DIRS = [
+    # BASE_DIR / "app/static",
     BASE_DIR / "static",
-    # BASE_DIR / "Dir your name",
 ]
 
 # Default primary key field type
