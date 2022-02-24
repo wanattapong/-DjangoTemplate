@@ -22,6 +22,12 @@ MYSQL_DATABASE_HOST = os.environ.get('MYSQL_DATABASE_HOST')
 MYSQL_DATABASE_PORT = os.environ.get('MYSQL_DATABASE_PORT') 
 MYSQL_DATABASE_TIME_ZONE = os.environ.get('MYSQL_DATABASE_TIME_ZONE') 
 #************************************************************************
+EMAIL_USE_TLS = os.environ['EMAIL_USE_TLS'] == 'True'
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_PORT = os.environ.get('EMAIL_PORT')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
+SERVER_EMAIL = os.environ.get('SERVER_EMAIL')
+#************************************************************************
 SECRET_KEY = os.environ.get('SECRET_KEY') 
 #************************************************************************
 DEBUG = os.environ['DEBUG'] == 'True'
@@ -53,7 +59,7 @@ INSTALLED_APPS = [
     'adminManage.apps.AdminmanageConfig',
     'tailwind',
     'theme',
-    'django_browser_reload', # Reload browser automatically
+    # 'django_browser_reload', # Reload browser automatically
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -71,7 +77,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django_browser_reload.middleware.BrowserReloadMiddleware', # Reload browser automatically
+    # 'django_browser_reload.middleware.BrowserReloadMiddleware', # Reload browser automatically
 ]
 
 ROOT_URLCONF = 'settings.urls'
@@ -105,6 +111,8 @@ INTERNAL_IPS = [
 AUTH_USER_MODEL = 'account.User'
 
 AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.AllowAllUsersModelBackend']
+
+PASSWORD_RESET_TIMEOUT = 300 # 5 minutes
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -177,6 +185,14 @@ STATICFILES_DIRS = [
     # BASE_DIR / "app/static",
     BASE_DIR / "static",
 ]
+
+
+# Email protocol
+EMAIL_USE_TLS = EMAIL_USE_TLS
+EMAIL_HOST = EMAIL_HOST
+EMAIL_PORT = EMAIL_PORT
+DEFAULT_FROM_EMAIL = DEFAULT_FROM_EMAIL
+SERVER_EMAIL = SERVER_EMAIL
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
