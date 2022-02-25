@@ -4,22 +4,27 @@
 <html lang="en">
 
 <head>
-	<title>Django Tailwind</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="keywords" content="Python, Django, framework, open-source" />
+	<meta name="description" content="django-template">
+	<title>Django template</title>
+
+	<!-- Favicons -->
+	<link rel="apple-touch-icon" href="https://static.djangoproject.com/img/icon-touch.e4872c4da341.png">
+	<link rel="icon" sizes="192x192" href="https://static.djangoproject.com/img/icon-touch.e4872c4da341.png">
+	<!-- <link rel="shortcut icon" href="https://static.djangoproject.com/img/favicon.6dbf28c0650e.ico"> -->
+	<meta name="msapplication-TileColor" content="#113228">
+	<meta name="msapplication-TileImage" content="https://static.djangoproject.com/img/icon-tile.b01ac0ef9f67.png">
 	{% tailwind_css %}
 </head>
 
-<body class="bg-gray-50 font-serif leading-normal tracking-normal">
+<body class="bg-gray-50 leading-normal tracking-normal">
 	<div class="container mx-auto">
-		<section class="flex items-center justify-center h-screen">
-			<div class="text-5xl font-extrabold ...">
-				<span class="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500">
-					Hello world
-				</span>
-			</div>
-		</section>
+		{% block content %}
+
+		{% endblock content %}
 	</div>
 </body>
 

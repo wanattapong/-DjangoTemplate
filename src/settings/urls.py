@@ -26,7 +26,7 @@ handler400 = 'errorPage.views.my_custom_bad_request_view'
 urlpatterns = [
     path('', include('account.urls')),
     path('admin/', include('adminManage.urls')),
-    # path("__reload__/", include("django_browser_reload.urls")),
+    path("__reload__/", include("django_browser_reload.urls")),
 
     re_path(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}), 
     re_path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),

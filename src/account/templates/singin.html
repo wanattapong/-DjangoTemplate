@@ -1,95 +1,112 @@
-<!DOCTYPE html>
-<html lang="en">
-
+{% extends 'base.html' %}
 {% load static %}
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="keywords" content="Python, Django, framework, open-source" />
-    <meta name="description" content="django-template">
-    <title>Django template</title>
-
-    <!-- Favicons -->
-    <link rel="apple-touch-icon" href="https://static.djangoproject.com/img/icon-touch.e4872c4da341.png">
-    <link rel="icon" sizes="192x192" href="https://static.djangoproject.com/img/icon-touch.e4872c4da341.png">
-    <!-- <link rel="shortcut icon" href="https://static.djangoproject.com/img/favicon.6dbf28c0650e.ico"> -->
-    <meta name="msapplication-TileColor" content="#113228">
-    <meta name="msapplication-TileImage" content="https://static.djangoproject.com/img/icon-tile.b01ac0ef9f67.png">
-
-    <!-- Bootstrap core CSS -->
-    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-    
-    <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            user-select: none;
-        }
-
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-    </style>
 
 
-    <!-- Custom styles for this template -->
-    <link href="{% static 'bootstrap/css/custom/signin.css' %}" rel="stylesheet">
-</head>
+{% block content %}
+<!--
+  This example requires Tailwind CSS v2.0+ 
+  
+  This example requires some changes to your config:
+  
+  ```
+  // tailwind.config.js
+  module.exports = {
+    // ...
+    plugins: [
+      // ...
+      require('@tailwindcss/forms'),
+    ],
+  }
+  ```
+-->
+<!--
+  This example requires updating your template:
 
-<body class="text-center">
-
-    <main class="form-signin">
-        <form method="post" action="{% url 'singin' %}">
+  ```
+  <html class="h-full bg-gray-50">
+  <body class="h-full">
+  ```
+-->
+<div class="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8">
+        <div>
+            <img class="mx-auto h-12 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+                alt="Workflow">
+            <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
+        </div>
+        <form class="mt-8 space-y-6" method="post" action="{% url 'singin' %}"
+            enctype="application/x-www-form-urlencoded">
             {% csrf_token %}
 
-            <img class="mb-4" src="{% static 'img/bootstrap-logo.svg' %}" alt="" width="72" height="57">
-            <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
-
-            <div class="form-floating">
-                <input type="text" class="form-control" name="username" id="id_username" placeholder="{{form.username.label}}">
-                <label for="id_username">{{form.username.label}}</label>
-              </div>
-              <div class="form-floating">
-                <input type="password" class="form-control" name="password" id="id_password" placeholder="{{form.password.label}}">
-                <label for="id_password">{{form.password.label}}</label>
-              </div>
+            <div class="rounded-md shadow-sm -space-y-px">
+                <div>
+                    <label for="id_name" class="sr-only">{{form.username.label}}</label>
+                    <input id="id_name" name="{{form.username.name}}" type="text" autocomplete="{{form.username.label}}"
+                        required
+                        class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                        placeholder="{{form.username.label}}">
+                </div>
+                <div>
+                    <label for="id_password" class="sr-only">{{form.password.label}}</label>
+                    <input id="id_password" name="{{form.password.name}}" type="password"
+                        autocomplete="{{form.password.label}}" required
+                        class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                        placeholder="{{form.password.label}}">
+                </div>
+            </div>
 
             {% for error in form.non_field_errors %}
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                {{error}}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <div class="flex p-4  mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800"
+                role="alert">
+                <svg class="inline flex-shrink-0 mr-3 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                        clip-rule="evenodd"></path>
+                </svg>
+                <div>
+                    <span class="font-medium">{{error}}</span>
+                </div>
             </div>
             {% endfor %}
 
-            <div class="form-check checkbox mb-3">
-                <label>
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                    <label class="form-check-label" for="flexCheckDefault">
-                        Remember me
-                    </label>
-                </label>
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <input id="remember-me" name="remember-me" type="checkbox"
+                        class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                    <label for="remember-me" class="ml-2 block text-sm text-gray-900"> Remember me </label>
+                </div>
+
+                <div class="text-sm">
+                    <a href="{% url 'password_reset_request' %}"
+                        class="font-medium text-indigo-600 hover:text-indigo-500"> Forgot your password? </a>
+                </div>
             </div>
 
-            <button class="w-100 btn btn-primary btn-lg" type="submit">Sign in</button>
-            <input type="hidden" name="next" value="{{  request.GET.next  }}">
-
-            <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                <a class="small" href="{% url 'password_reset_request' %}">Forgot Password?</a>
-                <a class="small" href="{% url 'register' %}">Register</a>
+            <div>
+                <input type="hidden" name="next" value="{{  request.GET.next  }}">
+                <button type="submit"
+                    class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                        <!-- Heroicon name: solid/lock-closed -->
+                        <svg class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
+                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                            aria-hidden="true">
+                            <path fill-rule="evenodd"
+                                d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </span>
+                    Sign in
+                </button>
             </div>
 
+            <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
+                Not registered? <a href="{% url 'register' %}" class="font-medium text-indigo-600 hover:text-indigo-500">Create account</a>
+            </div>
         </form>
-    </main>
+    </div>
+</div>
 
-
-    <script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
-    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
-</body>
-
-</html>
+{% endblock content %}
