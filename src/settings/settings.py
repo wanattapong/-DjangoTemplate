@@ -57,9 +57,7 @@ INSTALLED_APPS = [
     'errorPage.apps.ErrorpageConfig',
     'account.apps.AccountConfig',
     'adminManage.apps.AdminmanageConfig',
-    'tailwind',
-    'theme',
-    # 'django_browser_reload', # Reload browser automatically
+    'django_browser_reload', # Reload browser automatically
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -77,7 +75,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'django_browser_reload.middleware.BrowserReloadMiddleware', # Reload browser automatically
+    'django_browser_reload.middleware.BrowserReloadMiddleware', # Reload browser automatically
 ]
 
 ROOT_URLCONF = 'settings.urls'
@@ -94,7 +92,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                # 'django.template.context_processors.media',
             ],
         },
     },
@@ -102,12 +99,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'settings.wsgi.application'
 
-TAILWIND_APP_NAME = 'theme'
-
-# For developer mode
-INTERNAL_IPS = [
-    "127.0.0.1",
-]
 AUTH_USER_MODEL = 'account.User'
 
 AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.AllowAllUsersModelBackend']

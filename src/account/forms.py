@@ -5,8 +5,8 @@ from .models import User
 from django.contrib.auth.forms import UserCreationForm, SetPasswordForm
 
 class LoginForm(forms.Form):
-    username = forms.CharField(max_length=100)
-    password = forms.CharField(widget=forms.PasswordInput())
+    username = forms.CharField(max_length=100, required=True)
+    password = forms.CharField(widget=forms.PasswordInput(), required=True)
 
     # class Meta:
     #     model = User
@@ -14,14 +14,17 @@ class LoginForm(forms.Form):
 
     def clean(self):
         # cleaned_data = super().clean()
-        username_ = self.cleaned_data['username']
-        password_ = self.cleaned_data['password']
+        username_ = self.cleaned_data.get('username', None)
+        password_ = self.cleaned_data.get('password', None)
         user = authenticate(username=username_, password=password_)
-        if user:
-            if not user.is_active:
-                raise ValidationError("The account not is disabled.")
+        if username_ is None or password_ is None:
+            raise ValidationError('Please enter your name and password')
         else:
-            raise ValidationError("Invalid username or password.")
+            if user:
+                if not user.is_active:
+                    raise ValidationError("The account not is disabled.")
+            else:
+                raise ValidationError("Invalid username or password.")
         return self.cleaned_data
 
     def get_user(self):

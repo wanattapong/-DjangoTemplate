@@ -20,7 +20,7 @@
 
     <!-- Bootstrap core CSS -->
     <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-    
+
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -52,31 +52,42 @@
             <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
             <div class="form-floating">
-                <input type="text" class="form-control" name="username" id="id_username" placeholder="{{form.username.label}}">
+                <input type="text" class="form-control" name="username" id="id_username"
+                    placeholder="{{form.username.label}}">
                 <label for="id_username">{{form.username.label}}</label>
-              </div>
-              <div class="form-floating">
-                <input type="password" class="form-control" name="password" id="id_password" placeholder="{{form.password.label}}">
+            </div>
+            <div class="form-floating">
+                <input type="password" class="form-control" name="password" id="id_password"
+                    placeholder="{{form.password.label}}">
                 <label for="id_password">{{form.password.label}}</label>
-              </div>
+            </div>
 
+            <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+                    <path
+                        d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                </symbol>
+            </svg>
             {% for error in form.non_field_errors %}
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                {{error}}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <div class="alert alert-info d-flex align-items-center" role="alert">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:">
+                    <use xlink:href="#exclamation-triangle-fill" /></svg>
+                <div>
+                    {{error}}
+                </div>
             </div>
             {% endfor %}
 
             <div class="form-check checkbox mb-3">
                 <label>
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                    <input class="form-check-input" type="checkbox" id="flexCheckDefault">
                     <label class="form-check-label" for="flexCheckDefault">
                         Remember me
                     </label>
                 </label>
             </div>
 
-            <button class="w-100 btn btn-primary btn-lg" type="submit">Sign in</button>
+            <button class="w-100 btn btn-primary btn-lg" type="submit" onclick="setCookie()">Sign in</button>
             <input type="hidden" name="next" value="{{  request.GET.next  }}">
 
             <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
@@ -90,6 +101,49 @@
 
     <script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
     <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+
+    <!-- jquery.min.js -->
+    <script src="{% static 'jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'jquery/jquery.cookie.min.js' %}"></script>
+
+    <script>
+        $(document).ready(function () {
+            var remember = $.cookie('remember');
+            if (remember == 'true') {
+                var username = $.cookie('username');
+                var password = $.cookie('password');
+                $('#id_username').val(username);
+                $('#id_password').val(password);
+                $('#flexCheckDefault').prop('checked', true);
+            }
+        });
+
+        function setCookie() {
+            // var r1 = $('#ctl00_ContentDetail_gridRadios').is(":checked");
+            // var r2 = $('#ctl00_ContentDetail_gridRadios2').is(":checked");
+            // if (r1) $.cookie('usertype', 1)
+            // else if (r2) $.cookie('usertype', 2)
+
+            if ($('#flexCheckDefault').is(':checked')) {
+                var username = $('#id_username').val();
+                var password = $('#id_password').val();
+                $.cookie('username', username, {
+                    expires: 30
+                });
+                $.cookie('password', password, {
+                    expires: 30
+                });
+                $.cookie('remember', true, {
+                    expires: 30
+                });
+            } else {
+                // reset cookies
+                $.cookie('username', null);
+                $.cookie('password', null);
+                $.cookie('remember', null);
+            }
+        }
+    </script>
 </body>
 
 </html>

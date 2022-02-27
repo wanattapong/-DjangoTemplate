@@ -12,8 +12,8 @@ from .models import User
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.core.exceptions import ValidationError
 # Email
-from django.core.mail import send_mail
 from django.core import mail
 from django.utils.html import strip_tags
 from django.template.loader import render_to_string
@@ -48,7 +48,7 @@ def profile_view(request):
         return render(request, 'profile.html', dict(form = form))
 
 def login_view(request):
-    if request.method == 'POST':
+    if request.method == 'POST':    
         valuenext= request.POST.get('next', '')
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -64,6 +64,8 @@ def login_view(request):
     else:
         form = LoginForm()
     return render(request, 'singin.html', dict(form = form))
+
+
 
 def register_view(request):
     form = RegisterForm(request.POST or None)
