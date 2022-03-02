@@ -21,6 +21,13 @@
     <!-- Bootstrap core CSS -->
     <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
 
+    <!-- fonts google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -34,6 +41,10 @@
             .bd-placeholder-img-lg {
                 font-size: 3.5rem;
             }
+        }
+
+        body {
+            font-family: 'Kanit', sans-serif;
         }
     </style>
 
@@ -119,11 +130,6 @@
         });
 
         function setCookie() {
-            // var r1 = $('#ctl00_ContentDetail_gridRadios').is(":checked");
-            // var r2 = $('#ctl00_ContentDetail_gridRadios2').is(":checked");
-            // if (r1) $.cookie('usertype', 1)
-            // else if (r2) $.cookie('usertype', 2)
-
             if ($('#flexCheckDefault').is(':checked')) {
                 var username = $('#id_username').val();
                 var password = $('#id_password').val();

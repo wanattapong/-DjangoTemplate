@@ -50,9 +50,7 @@ Thumbs.db
 
 
 
-# For Django
-
-
+# For Django ********************************************************************************
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

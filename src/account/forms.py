@@ -37,7 +37,7 @@ class LoginForm(forms.Form):
 class RegisterForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ['username', 'password1', 'password2','email']
+        fields = ['username', 'first_name', 'last_name','password1', 'password2','email']
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
@@ -104,7 +104,7 @@ class ChangeForm(forms.Form):
         return self.user
 
 class PasswordResetRequestForm(forms.Form):
-    email = forms.EmailField()
+    email = forms.EmailField(error_messages={'required': 'กรุณากรอกอีเมลของคุณ.'})
     
     def clean_email(self):
         email = self.cleaned_data.get('email')

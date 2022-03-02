@@ -26,7 +26,6 @@ def is_admin(user):
     else:
         return False
 
-
 @login_required()
 def profile_view(request):
     if request.method == "POST" and request.is_ajax() and not request.FILES:
@@ -38,7 +37,7 @@ def profile_view(request):
             return JsonResponse({'status':'false', 'error': form.errors}, status=500)
     elif request.method == "POST" and request.is_ajax() and request.FILES:
         image = request.FILES.get('avatar')
-        if default_storage.exists(request.user.avatar.path) == True:
+        if default_storage.exists(request.user.avatar.path) == True and request.user.avatar != "":
             default_storage.delete(request.user.avatar.path)
         request.user.avatar = image
         request.user.save(update_fields=['avatar'])
@@ -64,8 +63,6 @@ def login_view(request):
     else:
         form = LoginForm()
     return render(request, 'singin.html', dict(form = form))
-
-
 
 def register_view(request):
     form = RegisterForm(request.POST or None)
