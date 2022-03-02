@@ -22,6 +22,12 @@ MYSQL_DATABASE_HOST = os.environ.get('MYSQL_DATABASE_HOST')
 MYSQL_DATABASE_PORT = os.environ.get('MYSQL_DATABASE_PORT') 
 MYSQL_DATABASE_TIME_ZONE = os.environ.get('MYSQL_DATABASE_TIME_ZONE') 
 #************************************************************************
+MDB_HOST  = os.environ.get('MDB_HOST')
+MDB_POST  = os.environ.get('MDB_POST')
+MDB_USER  = os.environ.get('MDB_USER')
+MDB_PASSWORD  = os.environ.get('MDB_PASSWORD')
+MDB_DB_NAME  = os.environ.get('MDB_DB_NAME')
+#************************************************************************
 EMAIL_USE_TLS = os.environ['EMAIL_USE_TLS'] == 'True'
 EMAIL_HOST = os.environ.get('EMAIL_HOST')
 EMAIL_PORT = os.environ.get('EMAIL_PORT')
@@ -110,17 +116,31 @@ PASSWORD_RESET_TIMEOUT = 300 # 5 minutes
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': MYSQL_DATABASE_NAME,
-        'USER': MYSQL_DATABASE_USER,
-        'PASSWORD': MYSQL_DATABASE_PASSWORD,
-        'HOST': MYSQL_DATABASE_HOST,
-        'PORT': MYSQL_DATABASE_PORT,
-        'TIME_ZONE': MYSQL_DATABASE_TIME_ZONE,
-        'default-character-set' : 'utf8',
-    },
+        'ENGINE': 'djongo',
+        'NAME': MDB_DB_NAME,
+        'CLIENT': {
+            'host': MDB_HOST,
+            'port': int(MDB_POST),
+            'username': MDB_USER,
+            'password': MDB_PASSWORD,
+            'authSource': 'admin',
+            'authMechanism': 'SCRAM-SHA-256'
+        }
+    }
 }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': MYSQL_DATABASE_NAME,
+#         'USER': MYSQL_DATABASE_USER,
+#         'PASSWORD': MYSQL_DATABASE_PASSWORD,
+#         'HOST': MYSQL_DATABASE_HOST,
+#         'PORT': MYSQL_DATABASE_PORT,
+#         'TIME_ZONE': MYSQL_DATABASE_TIME_ZONE,
+#         'default-character-set' : 'utf8',
+#     },
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

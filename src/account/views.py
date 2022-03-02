@@ -1,3 +1,4 @@
+from traceback import print_tb
 from turtle import pen
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -37,8 +38,9 @@ def profile_view(request):
             return JsonResponse({'status':'false', 'error': form.errors}, status=500)
     elif request.method == "POST" and request.is_ajax() and request.FILES:
         image = request.FILES.get('avatar')
-        if default_storage.exists(request.user.avatar.path) == True and request.user.avatar != "":
-            default_storage.delete(request.user.avatar.path)
+        if request.user.avatar != '':
+            if default_storage.exists(request.user.avatar.path) == True:
+                default_storage.delete(request.user.avatar.path)
         request.user.avatar = image
         request.user.save(update_fields=['avatar'])
         return JsonResponse({'status':'true'}, status=200)
