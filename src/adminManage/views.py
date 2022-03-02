@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseServerError
 from django.contrib.sessions.models import Session
 from account.models import User
+from settings.helper import encode_url
+from django.core.files.storage import default_storage
 
 # Create your views here.
 
@@ -38,5 +40,54 @@ def index(request):
             return redirect('logout')
     except Exception as e:
         return HttpResponseServerError
+    finally:
+        print('=== end ibiobank main curator ===')
+
+@login_required()
+def manage_user(request):
+    try:
+        if is_admin(request):
+            user = User.objects.all().values()
+            for i in user:
+                i['id'] = encode_url(i['id'])
+            context = {
+                'users': user,
+            }
+            return render(request, 'manage_user.html', context)
+        else:
+            return redirect('logout')
+    except Exception as e:
+        return HttpResponseServerError(e)
+    finally:
+        print('=== end ibiobank main curator ===')
+
+def manage_user_detail(request, username):
+    try:
+        if is_admin(request):
+            user = User.objects.get(username=username)
+            print(user)
+            context = {
+                'user': user,
+            }
+            return render(request, 'manage_user_detail.html', context)
+        else:
+            return redirect('logout')
+    except Exception as e:
+        return HttpResponseServerError(e)
+    finally:
+        print('=== end ibiobank main curator ===')
+
+def manage_user_delete(request, username):
+    try:
+        if is_admin(request):
+            user = User.objects.get(username=username)
+            if default_storage.exists(user.avatar.path) == True:
+                default_storage.delete(user.avatar.path)
+            user.delete()
+            return redirect('manage_user')
+        else:
+            return redirect('logout')
+    except Exception as e:
+        return HttpResponseServerError(e)
     finally:
         print('=== end ibiobank main curator ===')

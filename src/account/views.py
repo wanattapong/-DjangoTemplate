@@ -1,3 +1,4 @@
+from traceback import print_tb
 from turtle import pen
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -12,8 +13,8 @@ from .models import User
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.core.exceptions import ValidationError
 # Email
-from django.core.mail import send_mail
 from django.core import mail
 from django.utils.html import strip_tags
 from django.template.loader import render_to_string
@@ -26,7 +27,6 @@ def is_admin(user):
     else:
         return False
 
-
 @login_required()
 def profile_view(request):
     if request.method == "POST" and request.is_ajax() and not request.FILES:
@@ -38,8 +38,9 @@ def profile_view(request):
             return JsonResponse({'status':'false', 'error': form.errors}, status=500)
     elif request.method == "POST" and request.is_ajax() and request.FILES:
         image = request.FILES.get('avatar')
-        if default_storage.exists(request.user.avatar.path) == True:
-            default_storage.delete(request.user.avatar.path)
+        if request.user.avatar != '':
+            if default_storage.exists(request.user.avatar.path) == True:
+                default_storage.delete(request.user.avatar.path)
         request.user.avatar = image
         request.user.save(update_fields=['avatar'])
         return JsonResponse({'status':'true'}, status=200)
@@ -48,7 +49,7 @@ def profile_view(request):
         return render(request, 'profile.html', dict(form = form))
 
 def login_view(request):
-    if request.method == 'POST':
+    if request.method == 'POST':    
         valuenext= request.POST.get('next', '')
         form = LoginForm(request.POST)
         if form.is_valid():

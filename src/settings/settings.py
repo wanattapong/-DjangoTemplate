@@ -22,6 +22,12 @@ MYSQL_DATABASE_HOST = os.environ.get('MYSQL_DATABASE_HOST')
 MYSQL_DATABASE_PORT = os.environ.get('MYSQL_DATABASE_PORT') 
 MYSQL_DATABASE_TIME_ZONE = os.environ.get('MYSQL_DATABASE_TIME_ZONE') 
 #************************************************************************
+MDB_HOST  = os.environ.get('MDB_HOST')
+MDB_POST  = os.environ.get('MDB_POST')
+MDB_USER  = os.environ.get('MDB_USER')
+MDB_PASSWORD  = os.environ.get('MDB_PASSWORD')
+MDB_DB_NAME  = os.environ.get('MDB_DB_NAME')
+#************************************************************************
 EMAIL_USE_TLS = os.environ['EMAIL_USE_TLS'] == 'True'
 EMAIL_HOST = os.environ.get('EMAIL_HOST')
 EMAIL_PORT = os.environ.get('EMAIL_PORT')
@@ -43,7 +49,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = get_random_secret_key()
-# SECRET_KEY = 'django-insecure-86=ieah6_s6=#4i_yu=pqk!h3)7w9wrr4vfc&77slmx!5evjye'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = DEBUG
@@ -94,7 +99,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.media',
             ],
         },
     },
@@ -102,12 +106,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'settings.wsgi.application'
 
-TAILWIND_APP_NAME = 'theme'
+TAILWIND_APP_NAME='theme'
 
-# For developer mode
-INTERNAL_IPS = [
-    "127.0.0.1",
-]
 AUTH_USER_MODEL = 'account.User'
 
 AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.AllowAllUsersModelBackend']
@@ -119,17 +119,31 @@ PASSWORD_RESET_TIMEOUT = 300 # 5 minutes
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': MYSQL_DATABASE_NAME,
-        'USER': MYSQL_DATABASE_USER,
-        'PASSWORD': MYSQL_DATABASE_PASSWORD,
-        'HOST': MYSQL_DATABASE_HOST,
-        'PORT': MYSQL_DATABASE_PORT,
-        'TIME_ZONE': MYSQL_DATABASE_TIME_ZONE,
-        'default-character-set' : 'utf8',
-    },
+        'ENGINE': 'djongo',
+        'NAME': MDB_DB_NAME,
+        'CLIENT': {
+            'host': MDB_HOST,
+            'port': int(MDB_POST),
+            'username': MDB_USER,
+            'password': MDB_PASSWORD,
+            'authSource': 'admin',
+            'authMechanism': 'SCRAM-SHA-256'
+        }
+    }
 }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': MYSQL_DATABASE_NAME,
+#         'USER': MYSQL_DATABASE_USER,
+#         'PASSWORD': MYSQL_DATABASE_PASSWORD,
+#         'HOST': MYSQL_DATABASE_HOST,
+#         'PORT': MYSQL_DATABASE_PORT,
+#         'TIME_ZONE': MYSQL_DATABASE_TIME_ZONE,
+#         'default-character-set' : 'utf8',
+#     },
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
