@@ -59,17 +59,19 @@ ALLOWED_HOSTS = ALLOWED_HOSTS
 # Application definition
 
 INSTALLED_APPS = [
-    'errorPage.apps.ErrorpageConfig',
-    'account.apps.AccountConfig',
-    'adminManage.apps.AdminmanageConfig',
-    'django_browser_reload', # Reload browser automatically
-
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'errorPage.apps.ErrorpageConfig',
+    'account.apps.AccountConfig',
+    'adminManage.apps.AdminmanageConfig',
+    'django_browser_reload', # Reload browser automatically
+    'dbbackup', # Backup database
+    'django_crontab', # Cron job
 ]
 
 MIDDLEWARE = [
@@ -110,36 +112,39 @@ AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.AllowAllUsersModelBacke
 
 PASSWORD_RESET_TIMEOUT = 300 # 5 minutes
 
+DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
+DBBACKUP_STORAGE_OPTIONS = {'location': BASE_DIR / 'backup'}
+
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'djongo',
-        'NAME': MDB_DB_NAME,
-        'CLIENT': {
-            'host': MDB_HOST,
-            'port': int(MDB_POST),
-            'username': MDB_USER,
-            'password': MDB_PASSWORD,
-            'authSource': 'admin',
-            'authMechanism': 'SCRAM-SHA-256'
-        }
-    }
-}
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': MYSQL_DATABASE_NAME,
-#         'USER': MYSQL_DATABASE_USER,
-#         'PASSWORD': MYSQL_DATABASE_PASSWORD,
-#         'HOST': MYSQL_DATABASE_HOST,
-#         'PORT': MYSQL_DATABASE_PORT,
-#         'TIME_ZONE': MYSQL_DATABASE_TIME_ZONE,
-#         'default-character-set' : 'utf8',
-#     },
+#         'ENGINE': 'djongo',
+#         'NAME': MDB_DB_NAME,
+#         'CLIENT': {
+#             'host': MDB_HOST,
+#             'port': int(MDB_POST),
+#             'username': MDB_USER,
+#             'password': MDB_PASSWORD,
+#             'authSource': 'admin',
+#             'authMechanism': 'SCRAM-SHA-256'
+#         }
+#     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': MYSQL_DATABASE_NAME,
+        'USER': MYSQL_DATABASE_USER,
+        'PASSWORD': MYSQL_DATABASE_PASSWORD,
+        'HOST': MYSQL_DATABASE_HOST,
+        'PORT': MYSQL_DATABASE_PORT,
+        'TIME_ZONE': MYSQL_DATABASE_TIME_ZONE,
+        'default-character-set' : 'utf8',
+    },
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -203,6 +208,10 @@ EMAIL_HOST = EMAIL_HOST
 EMAIL_PORT = EMAIL_PORT
 DEFAULT_FROM_EMAIL = DEFAULT_FROM_EMAIL
 SERVER_EMAIL = SERVER_EMAIL
+
+CRONJOBS = [
+    ('*/1 * * * *', 'settings.cron.mediabackup_')
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
