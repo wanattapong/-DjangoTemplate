@@ -72,6 +72,9 @@ INSTALLED_APPS = [
     'django_browser_reload', # Reload browser automatically
     'dbbackup', # Backup database
     'django_crontab', # Cron job
+    'rest_framework', # REST framework
+    'rest_framework.authtoken', # REST framework
+    'corsheaders' # Cross-Origin Resource Sharing
 ]
 
 MIDDLEWARE = [
@@ -83,6 +86,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_browser_reload.middleware.BrowserReloadMiddleware', # Reload browser automatically
+    'corsheaders.middleware.CorsMiddleware', # Cross-Origin Resource Sharing
 ]
 
 ROOT_URLCONF = 'settings.urls'
@@ -115,36 +119,45 @@ PASSWORD_RESET_TIMEOUT = 300 # 5 minutes
 DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
 DBBACKUP_STORAGE_OPTIONS = {'location': BASE_DIR / 'backup'}
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        'rest_framework.authentication.TokenAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication',
+    ]
+}
+
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'djongo',
-#         'NAME': MDB_DB_NAME,
-#         'CLIENT': {
-#             'host': MDB_HOST,
-#             'port': int(MDB_POST),
-#             'username': MDB_USER,
-#             'password': MDB_PASSWORD,
-#             'authSource': 'admin',
-#             'authMechanism': 'SCRAM-SHA-256'
-#         }
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': MYSQL_DATABASE_NAME,
-        'USER': MYSQL_DATABASE_USER,
-        'PASSWORD': MYSQL_DATABASE_PASSWORD,
-        'HOST': MYSQL_DATABASE_HOST,
-        'PORT': MYSQL_DATABASE_PORT,
-        'TIME_ZONE': MYSQL_DATABASE_TIME_ZONE,
-        'default-character-set' : 'utf8',
-    },
+        'ENGINE': 'djongo',
+        'NAME': MDB_DB_NAME,
+        'CLIENT': {
+            'host': MDB_HOST,
+            'port': int(MDB_POST),
+            'username': MDB_USER,
+            'password': MDB_PASSWORD,
+            'authSource': 'admin',
+            'authMechanism': 'SCRAM-SHA-256'
+        }
+    }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': MYSQL_DATABASE_NAME,
+#         'USER': MYSQL_DATABASE_USER,
+#         'PASSWORD': MYSQL_DATABASE_PASSWORD,
+#         'HOST': MYSQL_DATABASE_HOST,
+#         'PORT': MYSQL_DATABASE_PORT,
+#         'TIME_ZONE': MYSQL_DATABASE_TIME_ZONE,
+#         'default-character-set' : 'utf8',
+#     },
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -212,6 +225,8 @@ SERVER_EMAIL = SERVER_EMAIL
 CRONJOBS = [
     ('*/1 * * * *', 'settings.cron.mediabackup_')
 ]
+
+CORS_ORIGIN_WHITELIST = ["http://localhost:3000", "http://127.0.0.1:3000"]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

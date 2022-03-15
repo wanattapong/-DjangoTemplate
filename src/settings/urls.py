@@ -22,9 +22,17 @@ handler500 = 'errorPage.views.my_custom_error_view'
 handler403 = 'errorPage.views.my_custom_permission_denied_view'
 handler400 = 'errorPage.views.my_custom_bad_request_view'
 
+from rest_framework import routers
+from adminManage import views
+
+router = routers.DefaultRouter()
+router.register(r'users', views.UserViewSet, basename='users')
+
 urlpatterns = [
     path('', include('account.urls')),
     path('admin/', include('adminManage.urls')),
+    path('api/', include(router.urls)),
+    # path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path("__reload__/", include("django_browser_reload.urls")),
 
     re_path(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}), 
