@@ -59,6 +59,7 @@ ALLOWED_HOSTS = ALLOWED_HOSTS
 # Application definition
 
 INSTALLED_APPS = [
+<<<<<<< HEAD
     'errorPage.apps.ErrorpageConfig',
     'account.apps.AccountConfig',
     'adminManage.apps.AdminmanageConfig',
@@ -66,12 +67,24 @@ INSTALLED_APPS = [
     'theme',
     'django_browser_reload', # Reload browser automatically
 
+=======
+>>>>>>> main
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'errorPage.apps.ErrorpageConfig',
+    'account.apps.AccountConfig',
+    'adminManage.apps.AdminmanageConfig',
+    'django_browser_reload', # Reload browser automatically
+    'dbbackup', # Backup database
+    'django_crontab', # Cron job
+    'rest_framework', # REST framework
+    'rest_framework.authtoken', # REST framework
+    'corsheaders' # Cross-Origin Resource Sharing
 ]
 
 MIDDLEWARE = [
@@ -83,6 +96,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_browser_reload.middleware.BrowserReloadMiddleware', # Reload browser automatically
+    'corsheaders.middleware.CorsMiddleware', # Cross-Origin Resource Sharing
 ]
 
 ROOT_URLCONF = 'settings.urls'
@@ -113,6 +127,18 @@ AUTH_USER_MODEL = 'account.User'
 AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.AllowAllUsersModelBackend']
 
 PASSWORD_RESET_TIMEOUT = 300 # 5 minutes
+
+DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
+DBBACKUP_STORAGE_OPTIONS = {'location': BASE_DIR / 'backup'}
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        'rest_framework.authentication.TokenAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication',
+    ]
+}
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -207,6 +233,12 @@ EMAIL_HOST = EMAIL_HOST
 EMAIL_PORT = EMAIL_PORT
 DEFAULT_FROM_EMAIL = DEFAULT_FROM_EMAIL
 SERVER_EMAIL = SERVER_EMAIL
+
+CRONJOBS = [
+    ('*/1 * * * *', 'settings.cron.mediabackup_')
+]
+
+CORS_ORIGIN_WHITELIST = ["http://localhost:3000", "http://127.0.0.1:3000"]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

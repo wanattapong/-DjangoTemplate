@@ -1,5 +1,3 @@
-from traceback import print_tb
-from turtle import pen
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import Group
@@ -14,6 +12,7 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.core.exceptions import ValidationError
+from rest_framework.authtoken.models import Token
 # Email
 from django.core import mail
 from django.utils.html import strip_tags
@@ -71,6 +70,7 @@ def register_view(request):
     if form.is_valid():
         user_obj = form.save()
         user_obj.groups.add(Group.objects.get(name='User'))
+        token = Token.objects.create(user=user_obj)
         return redirect('singin')
     return render(request, "register.html", dict(form = form))
 

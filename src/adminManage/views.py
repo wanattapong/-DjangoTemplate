@@ -8,6 +8,26 @@ from django.core.files.storage import default_storage
 
 # Create your views here.
 
+from .serializers import UserSerializer
+# from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import viewsets
+
+class UserViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = UserSerializer
+    # permission_classes = [IsAccountAdminOrReadOnly]
+
+    def get_queryset(self):
+        user = User.objects.all()
+        return user
+
+    def get(self):
+        serializer = UserSerializer
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 def is_admin(request):
     user = request.user.groups.all()
     if user[0].name == 'Admin' and request.user.is_authenticated:
