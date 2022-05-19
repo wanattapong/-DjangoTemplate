@@ -66,10 +66,13 @@ python manage.py collectstatic
 ```
 
 # Django
+
 ## django message
-``` msg = "Must put 'help' in subject when cc'ing yourself."
-        self.add_error('username', msg)
-        {{form.errors.username}}```
+```
+msg = "Must put 'help' in subject when cc'ing yourself."
+    self.add_error('username', msg)
+    {{form.errors.username}}
+```
 
 ## django clear migrations
 ```
