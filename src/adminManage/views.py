@@ -11,21 +11,20 @@ from django.core.files.storage import default_storage
 from .serializers import UserSerializer
 # from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIView
 from rest_framework.response import Response
-from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
-from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly
+from rest_framework import status, viewsets, generics
+from rest_framework.views import APIView
+from rest_framework.renderers import TemplateHTMLRenderer
 
-class UserViewSet(viewsets.ReadOnlyModelViewSet):
+
+""" API Here """
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
-    # permission_classes = [IsAccountAdminOrReadOnly]
+    # permission_classes = [IsAuthenticated]
 
-    def get_queryset(self):
-        user = User.objects.all()
-        return user
-
-    def get(self):
-        serializer = UserSerializer
-        return Response(serializer.data, status=status.HTTP_200_OK)
+""" ENd API """
 
 
 def is_admin(request):

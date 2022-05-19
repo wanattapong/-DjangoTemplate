@@ -17,11 +17,6 @@ from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import serve
 
-handler404 = 'errorPage.views.my_custom_page_not_found_view'
-handler500 = 'errorPage.views.my_custom_error_view'
-handler403 = 'errorPage.views.my_custom_permission_denied_view'
-handler400 = 'errorPage.views.my_custom_bad_request_view'
-
 from rest_framework import routers
 from adminManage import views
 
@@ -31,9 +26,11 @@ router.register(r'users', views.UserViewSet, basename='users')
 urlpatterns = [
     path('', include('account.urls')),
     path('admin/', include('adminManage.urls')),
+    # path("__reload__/", include("django_browser_reload.urls")),
+
     path('api/', include(router.urls)),
-    # path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path("__reload__/", include("django_browser_reload.urls")),
+    # for API authentication and authorization (login, logout, etc)
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')), 
 
     re_path(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}), 
     re_path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),

@@ -65,11 +65,15 @@ Get new staticfiles edited.
 python manage.py collectstatic
 ```
 
-   msg = "Must put 'help' in subject when cc'ing yourself."
-            self.add_error('username', msg)
-            {{form.errors.username}}
+# Django
+## django message
+``` msg = "Must put 'help' in subject when cc'ing yourself."
+        self.add_error('username', msg)
+        {{form.errors.username}}```
 
-
+## django clear migrations
+```
 find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
 find . -path "*/migrations/*.pyc"  -delete
 find . -name "*.pyc" -exec rm -f {} \;
+```

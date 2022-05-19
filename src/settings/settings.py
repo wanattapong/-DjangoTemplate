@@ -59,16 +59,6 @@ ALLOWED_HOSTS = ALLOWED_HOSTS
 # Application definition
 
 INSTALLED_APPS = [
-<<<<<<< HEAD
-    'errorPage.apps.ErrorpageConfig',
-    'account.apps.AccountConfig',
-    'adminManage.apps.AdminmanageConfig',
-    'tailwind',
-    'theme',
-    'django_browser_reload', # Reload browser automatically
-
-=======
->>>>>>> main
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -76,10 +66,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'errorPage.apps.ErrorpageConfig',
     'account.apps.AccountConfig',
     'adminManage.apps.AdminmanageConfig',
-    'django_browser_reload', # Reload browser automatically
+    # 'django_browser_reload', # Reload browser automatically
     'dbbackup', # Backup database
     'django_crontab', # Cron job
     'rest_framework', # REST framework
@@ -95,7 +84,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django_browser_reload.middleware.BrowserReloadMiddleware', # Reload browser automatically
+    # 'django_browser_reload.middleware.BrowserReloadMiddleware', # Reload browser automatically
     'corsheaders.middleware.CorsMiddleware', # Cross-Origin Resource Sharing
 ]
 
@@ -238,7 +227,10 @@ CRONJOBS = [
     ('*/1 * * * *', 'settings.cron.mediabackup_')
 ]
 
-CORS_ORIGIN_WHITELIST = ["http://localhost:3000", "http://127.0.0.1:3000"]
+CORS_ORIGIN_WHITELIST = (
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

@@ -20,6 +20,9 @@ from django.template.loader import render_to_string
 
 # Create your views here.
 
+def home(request):
+    return HttpResponse("Hello, world. You're at the polls index.")
+
 def is_admin(user):
     if user.groups.all()[0].name == 'Admin':
         return True
