@@ -1,17 +1,35 @@
-# django-tailwindcss
-Django template using Tailwindcss.
+# Create `.env` file
+```.env
+MYSQL_DATABASE_NAME=""
+MYSQL_DATABASE_USER=""
+MYSQL_DATABASE_PASSWORD=""
+MYSQL_DATABASE_HOST="127.0.0.1"
+MYSQL_DATABASE_PORT="3306"
+MYSQL_DATABASE_TIME_ZONE="Asia/Bangkok"
+
+MDB_DB_NAME="db_Test"
+MDB_HOST="127.0.0.1"
+MDB_POST="27017"
+MDB_USER=""
+MDB_PASSWORD=""
+
+SECRET_KEY=''
+DEBUG = 'True'
+SERVERNAMES= 'localhost 127.0.0.1'
+
+EMAIL_USE_TLS = False
+EMAIL_HOST = ""
+EMAIL_PORT = 25
+DEFAULT_FROM_EMAIL = ""
+SERVER_EMAIL = ""
+```
+
+# Django
 
 ## Step to start project
 Install requirements
 ```bash
 pip install -r requirements.txt
-```
-
-Install Tailwind & node_modules & Set staticfile(Because Run Product)
-```bash
-python manage.py tailwind install --no-input;
-python manage.py tailwind build --no-input;
-python manage.py collectstatic --no-input;
 ```
 
 And start Django
@@ -34,11 +52,6 @@ INTERNAL_IPS = [
 ]
 ```
 
-Start Tailwind
-```bash
-python manage.py tailwind start
-```
-
 ## Productions
 
 in `settings.py` to set `DEBUG is False`
@@ -47,29 +60,21 @@ in `settings.py` to set `DEBUG is False`
 DEBUG = False
 ```
 
-Disable `INTERNAL_IPS` (not necessary)
-```python
-# For developer mode
-#INTERNAL_IPS = [
-#    "127.0.0.1",
-#]
-```
-
-Build Taiwind to productions.
-```bash
-python manage.py tailwind build
-```
-
 Get new staticfiles edited.
 ```bash
 python manage.py collectstatic
 ```
 
-   msg = "Must put 'help' in subject when cc'ing yourself."
-            self.add_error('username', msg)
-            {{form.errors.username}}
+## jango message
+```python
+msg = "Must put 'help' in subject when cc'ing yourself."
+     self.add_error('username', msg)
+     {{form.errors.username}}
+```
 
-
+## django clear migrations files
+```bash
 find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
 find . -path "*/migrations/*.pyc"  -delete
 find . -name "*.pyc" -exec rm -f {} \;
+```
