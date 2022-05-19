@@ -65,7 +65,7 @@ Get new staticfiles edited.
 python manage.py collectstatic
 ```
 
-## jango message
+## django message
 ```python
 msg = "Must put 'help' in subject when cc'ing yourself."
      self.add_error('username', msg)
