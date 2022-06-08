@@ -21,6 +21,7 @@ from django.template.loader import render_to_string
 # Create your views here.
 
 def is_admin(user):
+    print(user)
     if user.groups.all()[0].name == 'Admin':
         return True
     else:
@@ -48,8 +49,10 @@ def profile_view(request):
         return render(request, 'profile.html', dict(form = form))
 
 def login_view(request):
+    print("#############################")
     if request.method == 'POST':    
-        valuenext= request.POST.get('next', '')
+        valuenext = request.POST.get('next', '')
+        print(valuenext)
         form = LoginForm(request.POST)
         if form.is_valid():
             user = form.get_user()
@@ -58,6 +61,7 @@ def login_view(request):
                 return redirect(resolve(valuenext).url_name)
             else:
                 if is_admin(user):
+                    print('admin')
                     return redirect('home-admin')
                 else:
                     return redirect('profile')
